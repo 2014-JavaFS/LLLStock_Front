@@ -22,6 +22,7 @@ export default function RootLayout({
         
         <nav className="h-8 bg-red-500">
           <Link href={"/contact"}>about me</Link>
+          <Link href={"/register"}>register</Link>
         </nav>
         {children}
         <Toaster />
