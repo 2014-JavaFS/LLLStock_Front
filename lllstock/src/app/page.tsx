@@ -5,7 +5,7 @@ import LTP from "./livestock/livestock_table_page";
 export default function Home() {
   return (
     <main className="flex-grow">
-      <LTP />
+      <LSP />
     </main>
   );
 }

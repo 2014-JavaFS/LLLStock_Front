@@ -2,12 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Selection_Card from "../custom-components/selection_card";
-
-interface Cattle {
-    id: string;
-    name: string;
-    description: string;
-}
+import { Cattle } from '../types/cattle';
 
 const Livestock_Select_Page: React.FC = () => {
     const [cattleData, setCattleData] = useState<Cattle[] | null>(null);
