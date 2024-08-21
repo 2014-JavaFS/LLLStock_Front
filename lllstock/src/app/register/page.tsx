@@ -13,8 +13,8 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-  import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
-
+import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
+import { lllServer } from "@/utils/lllServer";
 
 export default function Register() {
     //user Inputs
@@ -34,7 +34,7 @@ export default function Register() {
 
             //change to axios post
             //const response = await fetch("");
-            //const response = await server.post("/register", userInfo)
+            const response = await lllServer.post("/register", userInfo)
 
             console.log(userInfo)
         }
