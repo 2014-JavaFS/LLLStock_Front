@@ -57,7 +57,7 @@ export default function Register() {
                     <label htmlFor="password">Password:</label>
                     <input type="password" id="password" name="password" className="border rounded-md p-2" onChange={(e) => setPassword(e.target.value)} required/>
     
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">
+                    <Button onClick={handleSubmit} type="submit" className="bg-blue-700 text-lg p-2">
                         Register
                     </Button>
     
