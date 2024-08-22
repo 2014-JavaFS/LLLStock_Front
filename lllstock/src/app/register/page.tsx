@@ -90,55 +90,55 @@ export default function Register() {
                     />
 
                     {/* Dropdown */}
-                        <div className="relative inline-block text-left">
-                            <button
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="button"
+                    <div className="relative inline-block text-left">
+                        <button
+                            onClick={() => setDropdownOpen(!dropdownOpen)}
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-solid font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
+                            type="button"
+                        >
+                            {userType}
+                            <svg
+                                className="w-2.5 h-2.5 ms-3"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 10 6"
                             >
-                                {userType}
-                                <svg
-                                    className="w-2.5 h-2.5 ms-3"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 10 6"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 1 4 4 4-4"
-                                    />
-                                </svg>
-                            </button>
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="m1 1 4 4 4-4"
+                                />
+                            </svg>
+                        </button>
 
-                            {dropdownOpen && (
-                                <div className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                                        <li>
-                                            <a
-                                                href="#"
-                                                onClick={() => setType('OWNER')}
-                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            >
-                                                Owner
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                onClick={() => setType('VET')}
-                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            >
-                                                User
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
+                        {dropdownOpen && (
+                            <div className="absolute right-0 mt-2 bg-blue-700 rounded-lg shadow w-44" onMouseLeave={() => setDropdownOpen(false)}>
+                                <ul className="py-2 text-sm text-white">
+                                    <li>
+                                        <a
+                                            href="#"
+                                            onClick={() => setType('OWNER')}
+                                            className="block px-4 py-2 hover:bg-blue-900"
+                                        >
+                                            Owner
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="#"
+                                            onClick={() => setType('VET')}
+                                            className="block px-4 py-2 hover:bg-blue-900 border-t border-blue-600"
+                                        >
+                                            Vet
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
 
                     <Button type="submit" className="bg-blue-700 text-lg p-2">Create a account</Button>
 
