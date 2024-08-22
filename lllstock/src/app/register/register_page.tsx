@@ -52,7 +52,7 @@ export default function Register() {
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <main className="flex min-h-[calc(100vh-4em)] w-1/2 flex items-center justify-center p-2 bg-black">
+            <main className="min-h-[calc(100vh-4em)] w-1/2 items-center justify-center p-2 bg-black">
                 <Card className="border border-black">
                 <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
                     <CardTitle className="text-white">Create an account</CardTitle>
@@ -161,7 +161,7 @@ export default function Register() {
             style={{ width: '12vw', height: '12vw', maxWidth: '200px', maxHeight: '100px', minWidth: '80px', minHeight: '80px' }}>
         </div>
         {/* Logo */}
-        <img 
+        <Image 
             src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
             className="absolute top-[7%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
             alt="Logo" 
