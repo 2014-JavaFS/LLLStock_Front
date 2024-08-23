@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import Router, { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -19,11 +19,11 @@ import axios from 'axios';
 
 export default function Register() {
     //user Inputs
-    //const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const router = useRouter();
 
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -31,7 +31,6 @@ export default function Register() {
 
         try {
             const userInfo = {
-                //'username': username,
                 'email': email,
                 'password': password,
                 'userType': userType            
@@ -40,7 +39,7 @@ export default function Register() {
             console.log(userInfo)
             const response = await lllServer.post("/users/register", userInfo)
 
-            console.log(userInfo)
+            router.push("/Profile");
         }
         catch(error){
             console.error('Error on register', error);
@@ -52,22 +51,11 @@ export default function Register() {
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <main className="min-h-[calc(100vh-4em)] w-1/2 items-center justify-center p-2 bg-black">
+            <div className="min-h-[calc(100vh-4em)] w-1/2 items-center justify-center p-2 bg-black">
                 <Card className="border border-black">
                 <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
                     <CardTitle className="text-white">Create an account</CardTitle>
                     <p className="text-gray-400">Enter your email below to create your account</p>
-                    {/*
-                    <label htmlFor="username" className="text-gray-300">Username:</label>
-                    <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    className="border rounded-md p-2" 
-                    onChange={(e) => setUsername(e.target.value)} 
-                    required 
-                    />
-                    */}
 
                     <input 
                     type="email" 
@@ -76,8 +64,7 @@ export default function Register() {
                     className="border rounded-md p-2 placeholder-gray-500" 
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="example@example.com"
-                    required 
-                    />
+                    required />
             
                     <label htmlFor="password" className="text-gray-300">Password:</label>
                     <input 
@@ -86,31 +73,27 @@ export default function Register() {
                     name="password" 
                     className="border rounded-md p-2" 
                     onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                    />
+                    required />
 
                     {/* Dropdown */}
                     <div className="relative inline-block text-left">
                         <button
                             onClick={() => setDropdownOpen(!dropdownOpen)}
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-solid font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
-                            type="button"
-                        >
+                            type="button">
                             {userType}
                             <svg
                                 className="w-2.5 h-2.5 ms-3"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
-                                viewBox="0 0 10 6"
-                            >
+                                viewBox="0 0 10 6">
                                 <path
                                     stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="2"
-                                    d="m1 1 4 4 4-4"
-                                />
+                                    d="m1 1 4 4 4-4"/>
                             </svg>
                         </button>
 
@@ -121,8 +104,7 @@ export default function Register() {
                                         <a
                                             href="#"
                                             onClick={() => setType('OWNER')}
-                                            className="block px-4 py-2 hover:bg-blue-900"
-                                        >
+                                            className="block px-4 py-2 hover:bg-blue-900">
                                             Owner
                                         </a>
                                     </li>
@@ -130,8 +112,7 @@ export default function Register() {
                                         <a
                                             href="#"
                                             onClick={() => setType('VET')}
-                                            className="block px-4 py-2 hover:bg-blue-900 border-t border-blue-600"
-                                        >
+                                            className="block px-4 py-2 hover:bg-blue-900 border-t border-blue-600">
                                             Vet
                                         </a>
                                     </li>
@@ -140,7 +121,7 @@ export default function Register() {
                         )}
                     </div>
 
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">Create a account</Button>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Create an account</Button>
 
                     <p className="text-gray-400">
                         By clicking continue, you agree to our <br />
@@ -154,14 +135,14 @@ export default function Register() {
                 <div className="absolute top-[6%] right-[3%]">
                     <ButtonWithMail></ButtonWithMail>
                 </div>
-            </main>
+            </div>
             {/*Rectangle behind logo*/}
         <div 
             className="absolute bg-gray-100 top-[8.5%] right-[35%] z-10"
             style={{ width: '12vw', height: '12vw', maxWidth: '200px', maxHeight: '100px', minWidth: '80px', minHeight: '80px' }}>
         </div>
         {/* Logo */}
-        <Image 
+        <img 
             src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
             className="absolute top-[7%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
             alt="Logo" 
