@@ -23,6 +23,7 @@ export default function RootLayout({
         <nav className="h-8 bg-red-500">
           <Link href={"/contact"}>about me</Link>
           <Link href={"/register"}>register</Link>
+          <Link href={"/farmers"}>farmers</Link>
         </nav>
         {children}
         <Toaster />
