@@ -9,13 +9,15 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import Farmer from "./[id]";
 
 
 interface FarmerInformation {
-    user: number;
+    userId: number;
     firstName: string;
     lastName: string;
     email: string;
+    userType: string;
 }
 
 const FarmerCard: React.FC<{farmer: FarmerInformation}> = ({farmer}) => (
