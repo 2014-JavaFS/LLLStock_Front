@@ -2,21 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import FarmerCard from "./FarmerCard";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { lllServer } from "@/utils/lllServer";
 
 
 interface FarmerInformation {
@@ -30,19 +19,36 @@ interface FarmerInformation {
 const Farmers: React.FC = () => {
 
   const [farmers, setFarmers] = useState<FarmerInformation[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await axios.get<FarmerInformation[]>('http://localhost:8080/users/farmers');
+        const response = await lllServer.get<FarmerInformation[]>('/users/farmers');
         setFarmers(response.data);
       } catch (error) {
         console.error("Error fetching farmers date: ", error);
+        setError("Error fetching farmers data");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchFarmers();
   }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (farmers.length === 0) {
+    return <p>No farmers found</p>;
+  }
 
   return (
     <>
