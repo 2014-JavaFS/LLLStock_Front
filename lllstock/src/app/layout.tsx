@@ -20,9 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
+      <body className={inter.className}>
         <Header />
-          {children}
+        <nav className="h-8 bg-red-500">
+          <Link href={"/contact"}>about me</Link>
+          <Link href={"/register"}>register</Link>
+          <Link href={"/farmers"}>farmers</Link>
+        </nav>
+        {children}
+        <Toaster />
         <Footer />
       </body>
     </html>
