@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { lllServer } from "@/utils/lllServer";
-
+import Error from "../error/page";
 
 export default function UserProfile({ initialEmail = "", initialPassword = "" }) {
   const [firstName, setFirstName] = useState('');
@@ -17,9 +17,23 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
   const router = useRouter();
 
   useEffect(() => {
-    // If you want to obfuscate the password, replace it with asterisks.
-    setPassword("•".repeat(initialPassword.length));
-  }, [initialPassword]);
+    const fetchUserData = async () => {
+      try {
+        const response = await lllServer.get("/users/profile");
+        const userData = response.data;
+
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setEmail(userData.email);
+        setPassword("•".repeat(userData.password.length)); // Obfuscate the password
+      } catch (e) {
+        console.error('Error fetching user data:', e);
+        router.push('/error');
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +57,7 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Complete Your Profile</h1>
+        <h1 className="text-2xl font-bold mb-4">Profile</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="firstName" className="block text-gray-700">First Name:</label>

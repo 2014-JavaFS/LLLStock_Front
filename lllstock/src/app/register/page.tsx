@@ -18,7 +18,7 @@ import { lllServer } from "@/utils/lllServer";
 import axios from 'axios';
 
 export default function Register() {
-    //user Inputs
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userType, setType] = useState('OWNER');
@@ -33,13 +33,13 @@ export default function Register() {
             const userInfo = {
                 'email': email,
                 'password': password,
-                'userType': userType            
+                'userType': userType
             }
 
             console.log(userInfo)
             const response = await lllServer.post("/users/register", userInfo)
 
-            router.push("/Profile");
+            router.push("/complete_profile");
         }
         catch(error){
             console.error('Error on register', error);

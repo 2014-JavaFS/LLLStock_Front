@@ -1,12 +1,11 @@
+"use client";
 import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/navigation';
 
-// Define the props type
 interface ErrorPageProps {
   statusCode?: number;
 }
 
-// Use NextPage for the error page component
 const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode }) => {
   const router = useRouter();
 
@@ -24,11 +23,8 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode }) => {
   );
 };
 
-// Define getInitialProps
 ErrorPage.getInitialProps = async (context: NextPageContext) => {
   const { res, err } = context;
-
-  // Return the status code if available or fallback to a general error message
   return {
     statusCode: res ? res.statusCode : (err ? err.statusCode : 404),
   };
