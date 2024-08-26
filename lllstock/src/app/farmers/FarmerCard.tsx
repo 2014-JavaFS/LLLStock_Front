@@ -9,7 +9,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
-import Farmer from "./[id]";
+import Link from "next/link";
+
 
 
 interface FarmerInformation {
@@ -24,7 +25,9 @@ const FarmerCard: React.FC<{farmer: FarmerInformation}> = ({farmer}) => (
     <Card className="bg-white border border-gray-200 rounded-lg shadow-md p-4">
         <CardTitle>{farmer.firstName} {farmer.lastName}</CardTitle>
         <CardContent>Email: {farmer.email}</CardContent>
-        <Button onClick={()=>toast(`${farmer.email}`)}>View Livestock</Button>
+        <Link href={`/farmers/${farmer.userId}`}>
+              <Button>View Livestock</Button>
+        </Link>
     </Card>
 );
 
