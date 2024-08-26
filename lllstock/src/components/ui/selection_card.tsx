@@ -2,12 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/router';
-
-interface Cattle {
-    id: string;
-    name: string;
-    description: string;
-}
+import { Cattle } from '@/app/types/cattle';
 
 interface SelectionCardProps {
     cattle: Cattle;
