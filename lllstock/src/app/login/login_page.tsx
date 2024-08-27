@@ -4,7 +4,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { useState } from "react";
 import {
     Card,
     CardContent,
@@ -14,22 +14,72 @@ import {
     CardTitle,
   } from "@/components/ui/card";
   import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
+  import { lllServer } from "@/utils/lllServer";
+  import axios from 'axios';
 
 export default function Login() {
     //user inputs
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [userType, setType] = useState('OWNER'); //FIXME hardcoded
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
         try {
             const userInfo = {
-                'username': username,
                 'password': password,
-                'email': email; //FIXME
+                'email': email,
+                'userType': userType
             }
+
+            console.log(userInfo)
+            const response = await lllServer.post("/users/login", userInfo)
+
+            router.push("/Login");
+        } catch(error) {
+            console.error('Error in login', error)
         }
-    }
+    };
+
+    return (
+    <div className="login-container min-h-screen relative flex">
+        <div className="flex min-h-[calc(100vh-4em)] flex-col items-center justify-center p-24">
+            <Card>
+                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
+                    <CardTitle>Login</CardTitle>
+                    <label htmlFor="email">Email:</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        className="border rounded-md p-2" 
+                        onChange={(e) -> setEmail(e.target.value)} 
+                        placeholder="example@example.com"
+                        required 
+                    />
+
+                    <label htmlFor="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        className="border rounded-md p-2" 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        required 
+                    />
+
+                    <Button type="submit" className="bg-blue=700 text-lg p-2">
+                        Login
+                    </Button>
+
+                    <div className="register-container text-center">
+                        <p>Need to sign up?</p>
+                        <ButtonWithMail></ButtonWithMail>
+                    </div>
+                </form>
+            </Card>
+        </div>
+    </div>);
 }
