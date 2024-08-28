@@ -6,6 +6,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
+import { parseJwt } from "@/utils/jwtParser";
 
 export default function Login() {
     // User inputs
@@ -26,10 +27,22 @@ export default function Login() {
             };
 
             console.log(userInfo);
-            const response = await lllServer.post("/auth", userInfo);
+            await lllServer.post(`/auth/users/login?email=${email}&password=${password}`)
+            .then((response: {data:{accessToken: string}}) => {
+                console.log(response.data.accessToken)
+                const payload = parseJwt(response.data.accessToken)
+                console.log(payload)
+                if(payload != null) {
+                    const userId = payload.userId;
+                    localStorage.setItem("userId", userId)
+                    console.log(localStorage.getItem('userId'))
+                    router.push("/");
+                }
+            })
 
             // Assuming successful login redirects to another page
-            router.push("/dashboard"); // Adjust the route as necessary
+            // router.push("/dashboard"); // Adjust the route as necessary
+
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
@@ -116,15 +129,17 @@ export default function Login() {
             {/*Rectangle behind logo*/}
         <div 
             className="absolute bg-gray-100 top-[8.5%] right-[35%] z-10"
+
             style={{ width: '12vw', height: '12vw', maxWidth: '200px', maxHeight: '100px', minWidth: '80px', minHeight: '80px' }}>
         </div>
         {/* Logo */}
         <img 
             src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
             className="absolute top-[7%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
+
             alt="Logo" 
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
     </div>
-    )
+    );
 }
