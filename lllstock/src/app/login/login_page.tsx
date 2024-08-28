@@ -56,7 +56,7 @@ export default function Login() {
                         id="email" 
                         name="email" 
                         className="border rounded-md p-2" 
-                        onChange={(e) -> setEmail(e.target.value)} 
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="example@example.com"
                         required 
                     />
