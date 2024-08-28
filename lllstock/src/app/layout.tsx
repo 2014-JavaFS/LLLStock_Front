@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/ui/header.tsx";
+import Header from "../components/ui/header";
 import Footer from "../components/ui/footer";
 import Contact from "./contact/page";
 import Link from "next/link";

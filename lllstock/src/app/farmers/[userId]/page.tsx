@@ -73,7 +73,6 @@ const Farmer: NextPage = () => {
             if(!userId || Array.isArray(userId)) {
                 setError("Invalid user id");
                 setLoading(false);
-                router.push(`/error?statusCode=400&errorMessage=Invalid%20user%20id`);
                 return;
             }
 
@@ -87,7 +86,7 @@ const Farmer: NextPage = () => {
             } catch (error) {
                 console.error("Error fetching farmer data: ", error);
                 setError("Error fetching farmer data");
-                router.push(`/error?statusCode=500&errorMessage=Error%20fetching%20farmer%20data`);
+                router.push(`/error?errorMessage=${error}`);
             } finally {
                 setLoading(false);
             }

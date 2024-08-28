@@ -23,7 +23,7 @@ const Livestock_Select_Page: React.FC<{ farmer: Farmer }> = ({ farmer }) => {
     }
 
     if (error) {
-        router.push(`/error`);
+        router.push(`/error?errorMessage=${error}`);
     }
 
     if (!cattleData || cattleData.length === 0) {

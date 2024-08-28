@@ -38,10 +38,11 @@ export default function Register() {
 
             console.log(userInfo)
             const response = await lllServer.post("/users/register", userInfo)
-            router.push("/complete_profile");
+            router.push("/login");
         }
         catch(error){
             console.error('Error on register', error);
+            router.push(`/error?errorMessage=${error}`);
         }
     };
 

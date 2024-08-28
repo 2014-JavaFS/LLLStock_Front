@@ -14,6 +14,7 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState(initialPassword);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,9 +27,9 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
         setLastName(userData.lastName);
         setEmail(userData.email);
         setPassword("•".repeat(userData.password.length)); // Obfuscate the password
-      } catch (e) {
-        console.error('Error fetching user data:', e);
-        router.push('/error');
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        router.push(`/error?errorMessage=${error}`);
       }
     };
 

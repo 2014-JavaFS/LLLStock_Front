@@ -29,7 +29,7 @@ const Farmers: React.FC = () => {
       } catch (error) {
         console.error("Error fetching farmers date: ", error);
         setError("Error fetching farmers data");
-        router.push(`/error`);
+        router.push(`/error?errorMessage=${error}`);
       } finally {
         setLoading(false);
       }

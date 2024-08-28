@@ -12,12 +12,10 @@ const Livestock_Table_Page: React.FC<LivestockTablePageProps> = ({ cattle }) => 
     const router = useRouter();
 
     const handleEdit = () => {
-        // Navigate to the edit page or show edit modal
         router.push(`/edit-cattle/${cattle?.id}`);
     };
 
     const handleBack = () => {
-        // Navigate back to the previous page
         router.back();
     };
 
