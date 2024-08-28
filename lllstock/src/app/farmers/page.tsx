@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import FarmerCard from "./FarmerCard";
 import React, { useState, useEffect } from "react";
 import { lllServer } from "@/utils/lllServer";
+import { headers } from "next/headers";
 
 
 interface FarmerInformation {
@@ -24,7 +25,11 @@ const Farmers: React.FC = () => {
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await lllServer.get<FarmerInformation[]>('/users/farmers');
+        const response = await lllServer.get<FarmerInformation[]>('/users/farmers',
+        {headers: {
+          'userType': 'VET'
+        }}
+        );
         setFarmers(response.data);
       } catch (error) {
         console.error("Error fetching farmers date: ", error);

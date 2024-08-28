@@ -26,7 +26,7 @@ export default function Login() {
             };
 
             console.log(userInfo);
-            const response = await lllServer.post("/users/login", userInfo);
+            const response = await lllServer.post("/auth", userInfo);
 
             // Assuming successful login redirects to another page
             router.push("/dashboard"); // Adjust the route as necessary
