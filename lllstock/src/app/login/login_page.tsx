@@ -16,6 +16,7 @@ import {
   import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
   import { lllServer } from "@/utils/lllServer";
   import axios from 'axios';
+  import { parseJwt } from "@/utils/jwtParser";
 
 export default function Login() {
     //user inputs
@@ -36,7 +37,11 @@ export default function Login() {
             }
 
             console.log(userInfo)
-            const response = await lllServer.post("/users/login", userInfo)
+            await lllServer.post("/users/login", userInfo)
+            .then((data) => {
+                console.log(data)
+            })
+
 
             router.push("/Login");
         } catch(error) {
