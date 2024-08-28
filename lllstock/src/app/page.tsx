@@ -6,10 +6,11 @@ import Link from "next/link";
 import Register from "./register/page";
 import Profile from "./user_profile/page";
 import Error from "./error/page";
-export default function Home() {
+import Home from "./home/page"
+export default function Page() {
   return (
     <main className="flex-grow">
-      <Profile />
+      <Home />
     </main>
   );
 }
