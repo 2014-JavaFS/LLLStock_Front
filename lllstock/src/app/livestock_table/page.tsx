@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation'; // To navigate back
-import { Cattle } from '../types/cattle'; // Assume you have a Cattle type definition
+import type { Cattle } from '../types/cattle'; // Assume you have a Cattle type definition
 
 interface LivestockTablePageProps {
     cattle: Cattle | null; // Allow for the possibility of null or invalid data

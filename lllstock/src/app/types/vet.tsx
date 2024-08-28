@@ -1,9 +1,9 @@
 export interface Vet{
-     user_id: string;
-     first_name: string;
-     last_name: string;
+     userId: string;
+     firstName: string;
+     lastName: string;
      email: string;
-     password: string;
+     userType: string;
      //Record Keeping
      details: string;
      record_date: string;

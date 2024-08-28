@@ -2,32 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import Selection_Card from "../../components/ui/selection_card";
-import { Cattle } from '../types/cattle';
-import { Owner } from '../types/owner';
+import type { Cattle } from '../types/cattle';
+import type { Farmer } from '../types/farmer';
+import { useParams, useRouter } from "next/navigation";
+import { NextPage } from "next";
+import { lllServer } from "@/utils/lllServer";
 
-const Livestock_Select_Page: React.FC = () => {
+const Livestock_Select_Page: React.FC<{ farmer: Farmer }> = ({ farmer }) => {
     const [cattleData, setCattleData] = useState<Cattle[] | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
-        const fetchCattleData = async () => {
-            try {
-                const response = await fetch(`localhost:3000/${Owner.user_id}/cattle`);
-                const data: Cattle[] = await response.json();
-                setCattleData(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setCattleData([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCattleData();
-    }, []);
+        
+    });
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="p-4 text-center">Loading...</div>;
+    }
+
+    if (error) {
+        router.push(`/error`);
     }
 
     if (!cattleData || cattleData.length === 0) {
@@ -55,15 +51,15 @@ const Livestock_Select_Page: React.FC = () => {
         };
 
         return (
-          <div className="p-4 text-center">
-               <p className="text-red-500">Failed to get data</p>
-               <Selection_Card key={sampleData.id} cattle={sampleData} />
-          </div>
+            <div className="p-4 text-center">
+                <p className="text-red-500">No cattle data available</p>
+                <Selection_Card key={sampleData.id} cattle={sampleData} />
+            </div>
         );
     }
 
     return (
-        <div>
+        <div className="p-4">
             {cattleData.map(cattle => (
                 <Selection_Card key={cattle.id} cattle={cattle} />
             ))}
