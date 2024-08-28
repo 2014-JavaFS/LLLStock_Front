@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { NextPage } from "next";
 import React, { useState, useEffect } from "react";
 import { lllServer } from "@/utils/lllServer";
-
+import type { Farmer } from "../../types/farmer";
 interface patientIdentificationInfo {
     animalId: number;
     breed: string;
@@ -60,18 +60,11 @@ interface livestockRecordInfo {
     additionalNotes: additionalNotesInfo;
 }
 
-interface FarmerInformation {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    userType: string;
-}
-
 const Farmer: NextPage = () => {
     const params = useParams();
     const userId = params.userId;
-    const [farmer, setFarmer] = useState<FarmerInformation | null>(null);
+    const router = useRouter();
+    const [farmer, setFarmer] = useState<Farmer | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -80,22 +73,28 @@ const Farmer: NextPage = () => {
             if(!userId || Array.isArray(userId)) {
                 setError("Invalid user id");
                 setLoading(false);
+                router.push(`/error?statusCode=400&errorMessage=Invalid%20user%20id`);
                 return;
             }
 
             try {
-                const response = await lllServer.get<FarmerInformation>(`/users/${userId}`);
+                const response = await lllServer.get<Farmer>(`/users/${userId}`,{
+                    headers:{
+                        'userId': userId.toString()
+                    }
+                });
                 setFarmer(response.data);
             } catch (error) {
                 console.error("Error fetching farmer data: ", error);
                 setError("Error fetching farmer data");
+                router.push(`/error?statusCode=500&errorMessage=Error%20fetching%20farmer%20data`);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchFarmer();
-    }, [userId]);
+    }, [router, userId]);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -115,7 +114,6 @@ const Farmer: NextPage = () => {
             <p>First Name: {farmer.firstName}</p>
             <p>Last Name: {farmer.lastName}</p>
             <p>Email: {farmer.email}</p>
-            <p>User Type: {farmer.userType}</p>
         </>
     );
 }

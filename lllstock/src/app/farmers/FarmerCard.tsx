@@ -10,25 +10,26 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import Link from "next/link";
+import type { Farmer } from "../types/farmer";
 
-
-
-interface FarmerInformation {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    userType: string;
-}
-
-const FarmerCard: React.FC<{farmer: FarmerInformation}> = ({farmer}) => (
+const FarmerCard: React.FC<{farmer: Farmer}> = ({farmer}) => (
     <Card className="bg-white border border-gray-200 rounded-lg shadow-md p-4">
-        <CardTitle>{farmer.firstName} {farmer.lastName}</CardTitle>
-        <CardContent>Email: {farmer.email}</CardContent>
-        <Link href={`/farmers/${farmer.userId}`}>
-              <Button>View Livestock</Button>
-        </Link>
+        <CardTitle className="text-xl font-semibold mb-2">
+            {farmer.firstName} {farmer.lastName}
+        </CardTitle>
+        <CardContent className="text-gray-700 mb-4">
+            Email: {farmer.email}
+        </CardContent>
+        <div className="flex space-x-4">
+            <Link href={`/farmers/${farmer.userId}`} passHref>
+                <Button className="mr-4">View User Data</Button>
+            </Link>
+            <Link href={`/farmers/${farmer.userId}/cattle`} passHref>
+                <Button>View Livestock</Button>
+            </Link>
+        </div>
     </Card>
+
 );
 
 export default FarmerCard;

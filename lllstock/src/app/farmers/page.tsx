@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import FarmerCard from "./FarmerCard";
-
 import React, { useState, useEffect } from "react";
 import { lllServer } from "@/utils/lllServer";
 
@@ -17,7 +16,7 @@ interface FarmerInformation {
 }
 
 const Farmers: React.FC = () => {
-
+  const router = useRouter();
   const [farmers, setFarmers] = useState<FarmerInformation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,20 +29,17 @@ const Farmers: React.FC = () => {
       } catch (error) {
         console.error("Error fetching farmers date: ", error);
         setError("Error fetching farmers data");
+        router.push(`/error`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchFarmers();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
   }
 
   if (farmers.length === 0) {
