@@ -2,11 +2,13 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/ui/header";
+import Header from "../components/ui/header.tsx";
 import Footer from "../components/ui/footer";
+import Contact from "./contact/page";
 import Link from "next/link";
 import { Toaster } from "sonner";
 import { usePathname } from 'next/navigation';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,17 +23,14 @@ export default function Layout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {showHeader && <Header />}
-        <nav className="h-8 bg-red-500">
-          <Link href={"/contact"}>about me</Link>
-          <Link href={"/register"}>register</Link>
-          <Link href={"/farmers"}>farmers</Link>
-        </nav>
-        {children}
-        <Toaster />
-        <Footer />
-      </body>
-    </html>
+    <body className={inter.className}>
+      <Header />
+     
+      
+      <main>{children}</main>
+      <Toaster />
+      <Footer />
+    </body>
+  </html>
   );
 }
