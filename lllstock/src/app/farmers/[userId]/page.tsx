@@ -22,9 +22,9 @@ const Farmer: NextPage = () => {
             }
 
             try {
-                const response = await lllServer.get<Farmer>(`/users/${userId}`, {
-                    headers: {
-                        'userId': userId.toString()
+                const response = await lllServer.get<Farmer>(`/users/farmers/${userId}`,{
+                    headers:{
+                        'userType': 'VET'
                     }
                 });
                 setFarmer(response.data);

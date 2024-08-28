@@ -4,7 +4,7 @@ export interface OwnerInfo {
     lastName: string;
     email: string;
 }
-
+  
 export interface PatientIdentification {
     animal_id: number;
     breed: string;
@@ -19,6 +19,12 @@ export interface PreviousTreatment {
     treatment_procedures: string;
     followup_instructions: string;
 }
+  
+  export interface MedicalHistory {
+    previous_illnesses: string[];
+    previous_treatments: PreviousTreatment[];
+    vaccination_history: string[];
+  }
 
 export interface MedicalHistory {
     previous_illnesses: string[];
@@ -31,13 +37,40 @@ export interface Condition {
     diagnosis: string;
     diagnosis_tests: string[];
     symptoms: string[];
-}
+  }
 
 export interface Plan {
     medications_prescribed: string[];
     antibiotics: string[];
     treatment_procedures: string;
     followup_instructions: string;
+  }
+  
+  export interface VetDetails {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userType: string | null;
+  }
+  
+  export interface VetRecord {
+    vet_details: VetDetails;
+    record_date: string;
+    signature: string;
+  }
+  
+  export interface Notes {
+    environmental_factors: string;
+    behavioral_observations: string;
+  }
+  
+  export interface Health {
+    monitoring_schedule: string;
+    progress_notes: string;
+  }
+  
+  export interface CattleRecord {
 }
 
 export interface Health {
