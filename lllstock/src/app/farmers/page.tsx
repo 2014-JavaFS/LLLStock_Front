@@ -5,26 +5,18 @@ import { useRouter } from "next/navigation";
 import FarmerCard from "./FarmerCard";
 import React, { useState, useEffect } from "react";
 import { lllServer } from "@/utils/lllServer";
-
-
-interface FarmerInformation {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  userType: string;
-}
+import {Farmer} from "../types/farmer"
 
 const Farmers: React.FC = () => {
   const router = useRouter();
-  const [farmers, setFarmers] = useState<FarmerInformation[]>([]);
+  const [farmers, setFarmers] = useState<Farmer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await lllServer.get<FarmerInformation[]>('/users/farmers');
+        const response = await lllServer.get<Farmer[]>('/users/farmers');
         setFarmers(response.data);
       } catch (error) {
         console.error("Error fetching farmers date: ", error);

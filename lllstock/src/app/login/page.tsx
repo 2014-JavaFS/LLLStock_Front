@@ -42,6 +42,7 @@ export default function Login() {
 
             // Assuming successful login redirects to another page
             // router.push("/dashboard"); // Adjust the route as necessary
+
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
@@ -128,15 +129,17 @@ export default function Login() {
             {/*Rectangle behind logo*/}
         <div 
             className="absolute bg-gray-100 top-[8.5%] right-[35%] z-10"
+
             style={{ width: '12vw', height: '12vw', maxWidth: '200px', maxHeight: '100px', minWidth: '80px', minHeight: '80px' }}>
         </div>
         {/* Logo */}
         <img 
             src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
             className="absolute top-[7%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
+
             alt="Logo" 
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
     </div>
-    )
+    );
 }
