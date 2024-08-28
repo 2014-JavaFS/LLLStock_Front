@@ -1,10 +1,10 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
-import { Button } from "@/components/ui/button";
+import { FC, useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useState } from "react";
 import {
     Card,
     CardContent,
@@ -16,14 +16,19 @@ import {
   import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
   import { lllServer } from "@/utils/lllServer";
   import axios from 'axios';
-
-export default function Login() {
+ 
+const Login : FC = () => {
     //user inputs
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [userType, setType] = useState('OWNER'); //FIXME hardcoded
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useRouter();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
@@ -38,11 +43,18 @@ export default function Login() {
             console.log(userInfo)
             const response = await lllServer.post("/users/login", userInfo)
 
-            router.push("/Login");
+            if (isMounted) {
+            router.push("/Profile");
+            }
         } catch(error) {
-            console.error('Error in login', error)
+            console.error('Error in login', error);
+            toast.error('login failed');
         }
     };
+
+    if(!isMounted) {
+        return null;
+    }
 
     return (
     <div className="login-container min-h-screen relative flex">
@@ -56,7 +68,7 @@ export default function Login() {
                         id="email" 
                         name="email" 
                         className="border rounded-md p-2" 
-                        onChange={(e) -> setEmail(e.target.value)} 
+                        onChange={(e) => setEmail(e.target.value)} 
                         placeholder="example@example.com"
                         required 
                     />
@@ -70,7 +82,7 @@ export default function Login() {
                         required 
                     />
 
-                    <Button type="submit" className="bg-blue=700 text-lg p-2">
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">
                         Login
                     </Button>
 
@@ -81,5 +93,7 @@ export default function Login() {
                 </form>
             </Card>
         </div>
-    </div>);
+    </div>
+    );
 }
+export default Login;
