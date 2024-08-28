@@ -7,10 +7,12 @@ import Register from "./register/page";
 import Profile from "./user_profile/page";
 import Error from "./error/page";
 import Livestock_Single_View_Page from "./livestock_single_view/page";
-export default function Home() {
+import Home from "./home/page"
+
+export default function Page() {
   return (
     <main className="flex-grow">
-      <Profile />
+      <Home />
     </main>
   );
 }
