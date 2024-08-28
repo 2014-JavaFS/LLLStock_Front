@@ -29,7 +29,6 @@ const ErrorPage: NextPage<ErrorPageProps> = () => {
       setErrorMessage(decodeURIComponent(message));
     }
   }, [searchParams]);
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900">
       <div className="text-center">
