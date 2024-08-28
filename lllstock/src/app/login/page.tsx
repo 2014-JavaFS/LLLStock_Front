@@ -6,6 +6,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
+import { parseJwt } from "@/utils/jwtParser";
 
 export default function Login() {
     // User inputs
@@ -26,10 +27,21 @@ export default function Login() {
             };
 
             console.log(userInfo);
-            const response = await lllServer.post("/users/login", userInfo);
+            await lllServer.post(`/auth/users/login?email=${email}&password=${password}`)
+            .then((response: {data:{accessToken: string}}) => {
+                console.log(response.data.accessToken)
+                const payload = parseJwt(response.data.accessToken)
+                console.log(payload)
+                if(payload != null) {
+                    const userId = payload.userId;
+                    localStorage.setItem("userId", userId)
+                    console.log(localStorage.getItem('userId'))
+                    router.push("/");
+                }
+            })
 
             // Assuming successful login redirects to another page
-            router.push("/dashboard"); // Adjust the route as necessary
+            // router.push("/dashboard"); // Adjust the route as necessary
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
