@@ -21,6 +21,8 @@ export default function Register() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useRouter();
@@ -33,7 +35,9 @@ export default function Register() {
             const userInfo = {
                 'email': email,
                 'password': password,
-                'userType': userType            
+                'userType': userType,
+                'firstName': firstName,
+                'lastName': lastName        
             }
 
             console.log(userInfo)
@@ -42,17 +46,16 @@ export default function Register() {
         }
         catch(error){
             console.error('Error on register', error);
-            router.push(`/error?errorMessage=${error}`);
         }
     };
 
     return (
-    <div className="register-container min-h-screen relative flex">
+    <div className="register-container min-h-screen flex">
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <div className="min-h-[calc(100vh-4em)] w-1/2 items-center justify-center p-2 bg-black">
-                <Card className="border border-black">
+            <div className="min-h-screen w-1/2 flex items-center justify-center p-2 bg-black">
+                <Card className="border border-black ">
                 <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
                     <CardTitle className="text-white">Create an account</CardTitle>
                     <p className="text-gray-400">Enter your email below to create your account</p>
@@ -65,6 +68,26 @@ export default function Register() {
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="example@example.com"
                     required />
+
+                    <label htmlFor="text" className="text-gray-300">First Name:</label>
+                    <input 
+                    type="text" 
+                    id="firstName" 
+                    name="firstName" 
+                    className="border rounded-md p-2 placeholder-gray-500" 
+                    onChange={(e) => setFirstName(e.target.value)} 
+                    placeholder="John"
+                    />
+
+                    <label htmlFor="text" className="text-gray-300">Last Name:</label>
+                    <input 
+                    type="text" 
+                    id="lastName" 
+                    name="lastName" 
+                    className="border rounded-md p-2 placeholder-gray-500" 
+                    onChange={(e) => setLastName(e.target.value)} 
+                    placeholder="Smith"
+                    />
             
                     <label htmlFor="password" className="text-gray-300">Password:</label>
                     <input 
@@ -132,19 +155,16 @@ export default function Register() {
                 </form>
                 </Card>
 
-                <div className="absolute top-[6%] right-[3%]">
-                    <ButtonWithMail></ButtonWithMail>
-                </div>
             </div>
             {/*Rectangle behind logo*/}
         <div 
-            className="absolute bg-gray-100 top-[8.5%] right-[35%] z-10"
+            className="absolute bg-gray-100 top-[16.5%] right-[35%] z-10"
             style={{ width: '12vw', height: '12vw', maxWidth: '200px', maxHeight: '100px', minWidth: '80px', minHeight: '80px' }}>
         </div>
         {/* Logo */}
         <img 
             src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
-            className="absolute top-[7%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
+            className="absolute top-[15%] right-[36%] z-20 bg-white rounded-lg shadow-lg" 
             alt="Logo" 
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
