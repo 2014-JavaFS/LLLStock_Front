@@ -35,7 +35,7 @@ export default function Login() {
                 if(payload != null) {
                     const userId = payload.userId;
                     localStorage.setItem("userId", userId)
-                    console.log(localStorage.getItem('userId'))
+                    localStorage.setItem("userType", userType)
                     router.push("/");
                 }
             })
