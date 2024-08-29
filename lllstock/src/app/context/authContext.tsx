@@ -14,10 +14,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check for JWT in local storage on initial render
-    const token = localStorage.getItem('token'); 
-    setIsLoggedIn(!!token); // Update isLoggedIn based on token presence
-  }, []);
+    const jwt = localStorage.getItem('jwt'); 
+    setIsLoggedIn(!!jwt);
+  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
