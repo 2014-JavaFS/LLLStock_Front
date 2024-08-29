@@ -7,8 +7,6 @@ import { parseJwt } from "@/utils/jwtParser";
 import { lllServer } from "@/utils/lllServer";
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "../context/authContext";
 
