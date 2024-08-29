@@ -16,7 +16,11 @@ const Farmers: React.FC = () => {
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await lllServer.get<Farmer[]>('/users/all');
+        const response = await lllServer.get<Farmer[]>('/users/all', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+          }
+        });
 
         setFarmers(response.data);
       } catch (error) {
