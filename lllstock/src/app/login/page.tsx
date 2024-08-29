@@ -58,40 +58,32 @@ export default function Login() {
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <div className="flex min-h-[calc(100vh-4em)] flex-col items-center justify-center p-24">
-            <Card>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
-                    <CardTitle>Login</CardTitle>
-                    <label htmlFor="email">Email:</label>
+            <div className="min-h-screen w-1/2 flex items-center justify-center p-2 bg-black">
+                <Card className="border border-black ">
+                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
+                    <CardTitle className="text-white">Log In</CardTitle>
+                    <p className="text-gray-400">Log in to your account</p>                    
+                    <label htmlFor="email" className="text-gray-300">Email:</label>
                     <input 
-                        type="text" 
-                        id="email" 
-                        name="email" 
-                        className="border rounded-md p-2" 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="example@example.com"
-                        required 
-                    />
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    className="border rounded-md p-2 placeholder-gray-500" 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    placeholder="example@example.com"
+                    required />
 
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" className="text-gray-300">Password:</label>
                     <input 
-                        type="password" 
-                        id="password" 
-                        className="border rounded-md p-2" 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
-                    />
-
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">
-                        Login
-                    </Button>
-
-                    <div className="register-container text-center">
-                        <p>Need to sign up?</p>
-                        <ButtonWithMail></ButtonWithMail>
-                    </div>
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    className="border rounded-md p-2" 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    required />
 
                     <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
+                    <p className="text-gray-400">Forgot your password?</p>
                     <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
                         Forgot Password
                     </Button> 
