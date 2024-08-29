@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import Selection_Card from "../../components/ui/selection_card";
-import { Cattle } from "../types/cattle";
-import type { Farmer } from "../types/farmer";
+import { Cattle } from "@/app/types/cattle";
+import type { Farmer } from "@/app/types/farmer";
 import { useParams, useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { lllServer } from "@/utils/lllServer";
@@ -13,7 +12,6 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 }) => {
   const params = useParams();
   const userId = params.userId;
-  const animalId = 31;
   const [cattleData, setCattleData] = useState<Cattle[]>([cattle]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,16 +19,16 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 
   useEffect(() => {
     const fetchCattleData = async () => {
-      if (!animalId || Array.isArray(animalId)) {
-        setError("Invalid animal id");
+      if (!params.entryId || Array.isArray(params.entriId)) {
+        setError("Invalid entry id");
         setLoading(false);
         return;
       }
       try {
-        const response = await lllServer.get(`/medicalRecord/animal`, {
-          params: { animalId: animalId },
+        console.log(params.entryId);
+        const response = await lllServer.get(`/medicalRecord/entry`, {
+          params: { entryId: params.entryId },
         });
-        console.log("response: ", response.data);
         setCattleData([response.data]);
       } catch (error) {
         console.error("Error fetching cattle data: ", error);
@@ -41,7 +39,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
       }
     };
     fetchCattleData();
-  }, [router, animalId]);
+  }, [router, params.entryId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("name: ", e.target.name);
@@ -68,7 +66,6 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
       }
 
       currentObject[nameParts[nameParts.length - 1]] = value;
-      console.log(currentObject);
 
       updatedData[0] = updatedCattle;
 

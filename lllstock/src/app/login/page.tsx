@@ -7,14 +7,23 @@ import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
 import { parseJwt } from "@/utils/jwtParser";
+import { useAuth } from "../context/authContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
     // User inputs
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [userType, setType] = useState('OWNER'); // FIXME hardcoded
+    const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
+    const {isLoggedIn, setIsLoggedIn} = useAuth();
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -30,102 +39,72 @@ export default function Login() {
             await lllServer.post(`/auth/users/login?email=${email}&password=${password}`)
             .then((response: {data:{accessToken: string}}) => {
                 console.log(response.data.accessToken)
+                localStorage.setItem("jwt", response.data.accessToken)
                 const payload = parseJwt(response.data.accessToken)
                 console.log(payload)
                 if(payload != null) {
                     const userId = payload.userId;
                     localStorage.setItem("userId", userId)
-                    console.log(localStorage.getItem('userId'))
                     router.push("/");
+                    setIsLoggedIn(true)
                 }
             })
 
-            // Assuming successful login redirects to another page
-            // router.push("/dashboard"); // Adjust the route as necessary
-
+            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
-            toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
+            toast.error('Login failed. Please check your credentials and try again.');
         }
     };
+
+        const handleForgotPassword = () => {
+            router.push("/forgotPassword");
+        };
 
     return (
         <div className="login-container min-h-screen relative flex">
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <div className="min-h-[calc(100vh-4em)] w-1/2 items-center justify-center p-2 bg-black">
-                <Card className="border border-black">
+            <div className="min-h-screen w-1/2 flex items-center justify-center p-2 bg-black">
+                <Card className="border border-black ">
                 <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
                     <CardTitle className="text-white">Log In</CardTitle>
+                    <p className="text-gray-400">Log in to your account</p>                    
+                    <label htmlFor="email" className="text-gray-300">Email:</label>
                     <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="example@example.com"
-                    required />
-            
-                    <label htmlFor="password" className="text-gray-300">Password:</label>
-                    <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    className="border rounded-md p-2" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required />
 
-                    {/* Dropdown */}
-                    <div className="relative inline-block text-left">
-                        <button
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-solid font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
-                            type="button">
-                            {userType}
-                            <svg
-                                className="w-2.5 h-2.5 ms-3"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 10 6">
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="m1 1 4 4 4-4"/>
-                            </svg>
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        className="border rounded-md p-2 pr-10" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        placeholder="example@example.com"
+                        required 
+                    />
+
+                    <label htmlFor="password">Password:</label>
+                    <div className="password-input relative">
+                        <input 
+                            type={showPassword ? 'text' : 'password'}
+                            id="password" 
+                            className="border rounded-md p-2 pr-10" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                        />
+                        <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}></FontAwesomeIcon> 
                         </button>
-
-                        {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 bg-blue-700 rounded-lg shadow w-44" onMouseLeave={() => setDropdownOpen(false)}>
-                                <ul className="py-2 text-sm text-white">
-                                    <li>
-                                        <a
-                                            href="#"
-                                            onClick={() => setType('OWNER')}
-                                            className="block px-4 py-2 hover:bg-blue-900">
-                                            Owner
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            onClick={() => setType('VET')}
-                                            className="block px-4 py-2 hover:bg-blue-900 border-t border-blue-600">
-                                            Vet
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
                     </div>
 
                     <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
+                    <p className="text-gray-400">Forgot your password?</p>
+                    <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
+                        Forgot Password
+                    </Button> 
                 </form>
-                </Card>
-            </div>
+            </Card>
+        </div>
             {/*Rectangle behind logo*/}
         <div 
             className="absolute bg-gray-100 top-[8.5%] right-[35%] z-10"
@@ -141,5 +120,6 @@ export default function Login() {
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
     </div>
-    );
+    )
+
 }
