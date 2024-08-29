@@ -110,6 +110,9 @@ const Cattle: NextPage = () => {
                     </div> 
                     </Card>
             ))}
+            <Link href={`/farmers/${userId}/cattle/new-cattle`} passHref>
+                <Button className="mr-4">Add Livestock Information</Button>
+            </Link>
         </>
     );
 }
