@@ -26,7 +26,8 @@ const Farmer: NextPage = () => {
             try {
                 const response = await lllServer.get<Farmer>(`/users/farmers/${userId}`,{
                     headers:{
-                        'userType': 'VET'
+                        'userType': 'VET',
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     }
                 });
                 setFarmer(response.data);

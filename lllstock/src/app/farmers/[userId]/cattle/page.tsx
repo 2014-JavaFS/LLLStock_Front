@@ -59,7 +59,8 @@ const Cattle: NextPage = () => {
             try {
                 const response = await lllServer.get<CattleRecord[]>(`/medicalRecord/user`,{
                     headers:{
-                        'userType': 'VET'
+                        'userType': 'VET',
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     },
                     params: {
                         'userId': userId.toString()

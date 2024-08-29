@@ -28,6 +28,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
         console.log(params.entryId);
         const response = await lllServer.get(`/medicalRecord/entry`, {
           params: { entryId: params.entryId },
+          headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
         });
         setCattleData([response.data]);
       } catch (error) {
