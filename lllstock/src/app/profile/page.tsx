@@ -11,11 +11,6 @@ const ProfileCard: React.FC = () => {
         router.push("/farmers"); // Adjust the route as necessary
     };
 
-    const handleprofileChange =() => {
-        router.push("/edit_profile"); // Adjust the route as necessary
-    };
-    
-
     return (
         <div 
             className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover"
@@ -52,9 +47,6 @@ const ProfileCard: React.FC = () => {
                         <div className="pt-12 pb-8">
                             <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full" onClick={handleFarmers}>
                                 view Farmers
-                            </button>
-                            <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full" onClick={handleprofileChange}>
-                                Edit Profile
                             </button>
                         </div>
                         <div className="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between">
