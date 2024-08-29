@@ -1,7 +1,74 @@
 "use client";
+// import { useParams, useRouter } from "next/navigation";
+// import { NextPage } from "next";
+// import React, { useState, useEffect } from "react";
+// import { lllServer } from "@/utils/lllServer";
+// import type { Cattle } from "@/app/types/cattle";
+
+// const CattleRecord: NextPage = () => {
+//     const params = useParams();
+//     const entryId = params.entryId;
+//     const router = useRouter();
+//     const [cattleRecord, setCattleRecord] = useState<Cattle | null>(null);
+//     const [loading, setLoading] = useState<boolean>(true);
+//     const [error, setError] = useState<string | null>(null);
+
+//     useEffect(() => {
+//         const fetchFarmer = async () => {
+//             if(!entryId || Array.isArray(entryId)) {
+//                 setError("Invalid user id");
+//                 setLoading(false);
+//                 return;
+//             }
+
+//             try {
+//                 const response = await lllServer.get<Cattle>(`/medicalRecord/entry`,{
+//                     params:{
+//                         'entryId': entryId.toString()
+//                     }
+//                 });
+//                 setCattleRecord(response.data);
+//             } catch (error) {
+//                 console.error("Error fetching cattle record: ", error);
+//                 setError("Error fetching cattle record");
+//                 router.push(`/error?errorMessage=${error}`);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         fetchFarmer();
+//     }, [router, entryId]);
+
+//     if (loading) {
+//         return <p>Loading...</p>;
+//     }
+
+//     if (error) {
+//         return <p>{error}</p>;
+//     }
+
+//     if (!cattleRecord) {
+//         return <p>Cattle Record not found</p>;
+//     }
+
+//     return (
+//         <>
+//             <h1>Cattle Information</h1>
+//             <p>Entry ID: {cattleRecord.entryId}</p>
+//             <p>Animal Breed: {cattleRecord.patientIdentification.breed}</p>
+//             <p>Age: {cattleRecord.patientIdentification.age}</p>
+//             <p>Sex: {cattleRecord.patientIdentification.sex}</p>
+//         </>
+//     );
+// }
+// export default CattleRecord;
+
+"use client";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { Cattle } from "../../../../types/cattle";
+import { Cattle } from "@/app/types/cattle";
+import type { Farmer } from "@/app/types/farmer";
 import { useParams, useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { lllServer } from "@/utils/lllServer";
@@ -11,7 +78,6 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 }) => {
   const params = useParams();
   const userId = params.userId;
-  const entryId = 40;
   const [cattleData, setCattleData] = useState<Cattle[]>([cattle]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,16 +85,16 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 
   useEffect(() => {
     const fetchCattleData = async () => {
-      if (!entryId || Array.isArray(entryId)) {
+      if (!params.entryId || Array.isArray(params.entriId)) {
         setError("Invalid entry id");
         setLoading(false);
         return;
       }
       try {
+        console.log(params.entryId);
         const response = await lllServer.get(`/medicalRecord/entry`, {
-          params: { entryId: entryId },
+          params: { entryId: params.entryId },
         });
-        console.log("response: ", response.data);
         setCattleData([response.data]);
       } catch (error) {
         console.error("Error fetching cattle data: ", error);
@@ -39,7 +105,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
       }
     };
     fetchCattleData();
-  }, [router, entryId]);
+  }, [router, params.entryId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("name: ", e.target.name);
@@ -66,7 +132,6 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
       }
 
       currentObject[nameParts[nameParts.length - 1]] = value;
-      console.log(currentObject);
 
       updatedData[0] = updatedCattle;
 
@@ -105,6 +170,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
   return (
     <div className="p-4">
       {cattleData.map((cattle) => (
+        // eslint-disable-next-line react/jsx-key
         <div>
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
