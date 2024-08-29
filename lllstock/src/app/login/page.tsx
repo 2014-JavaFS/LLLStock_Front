@@ -7,6 +7,7 @@ import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
 import { parseJwt } from "@/utils/jwtParser";
+import { useAuth } from "../context/authContext";
 
 export default function Login() {
     // User inputs
@@ -15,6 +16,7 @@ export default function Login() {
     const [userType, setType] = useState('OWNER'); // FIXME hardcoded
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useRouter();
+    const {isLoggedIn, setIsLoggedIn} = useAuth();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -36,8 +38,8 @@ export default function Login() {
                 if(payload != null) {
                     const userId = payload.userId;
                     localStorage.setItem("userId", userId)
-                    localStorage.setItem("userType", userType)
                     router.push("/");
+                    setIsLoggedIn(true)
                 }
             })
 

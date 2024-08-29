@@ -1,7 +1,16 @@
 import React from 'react';
 import link from 'next/link';
+import { useAuth } from '@/app/context/authContext';
 
 const Header: React.FC = () => {
+
+  const {isLoggedIn, setIsLoggedIn} = useAuth();
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('userId')
+    setIsLoggedIn(false);
+  }
   return (
     <header className="bg-white dark:bg-gray-900">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -53,13 +62,21 @@ const Header: React.FC = () => {
 
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
+                {isLoggedIn ? (
                 <a
+                    className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
+                    href="/login"
+                  >
+                    Logout
+                  </a>
+                ) : (
+                  <a
                   className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
                   href="/login"
                 >
                   Login
                 </a>
-
+                )}
                 <div className="hidden sm:flex">
                   <a
                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"

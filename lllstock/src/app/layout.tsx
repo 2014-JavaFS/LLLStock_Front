@@ -8,6 +8,7 @@ import Contact from "./contact/page";
 import Link from "next/link";
 import { Toaster } from "sonner";
 import { usePathname } from 'next/navigation';
+import { AuthProvider } from "./context/authContext";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,12 +25,15 @@ export default function Layout({
   return (
     <html lang="en">
     <body className={inter.className}>
-      <Header />
+      <AuthProvider>
+        <Header />
      
       
-      <main>{children}</main>
-      <Toaster />
-      <Footer />
+        <main>{children}</main>
+        <Toaster />
+        <Footer />
+      </AuthProvider>
+      
     </body>
   </html>
   );
