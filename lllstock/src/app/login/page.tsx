@@ -42,13 +42,16 @@ export default function Login() {
             })
 
             // Assuming successful login redirects to another page
-            // router.push("/dashboard"); // Adjust the route as necessary
-
+            router.push("/dashboard"); // Adjust the route as necessary
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
         }
     };
+
+        const handleForgotPassword = () => {
+            router.push("/forgotPassword"); // Adjust the route as necessary
+        };
 
     return (
         <div className="login-container min-h-screen relative flex">
@@ -87,6 +90,11 @@ export default function Login() {
                         <p>Need to sign up?</p>
                         <ButtonWithMail></ButtonWithMail>
                     </div>
+
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
+                    <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
+                        Forgot Password
+                    </Button> 
                 </form>
             </Card>
         </div>
@@ -105,5 +113,6 @@ export default function Login() {
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
     </div>
-    );
+    )
+
 }
