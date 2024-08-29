@@ -82,7 +82,11 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
     }
 
     try {
-      await lllServer.patch(`/medicalRecord/animal`, cattleData[0]);
+      await lllServer.patch(`/medicalRecord/animal`, cattleData[0],{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      });
       alert("Livestock information updated successfully!");
     } catch (error) {
       console.error("Error updating livestock data: ", error);

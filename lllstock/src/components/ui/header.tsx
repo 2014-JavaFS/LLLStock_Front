@@ -34,14 +34,14 @@ const Header: React.FC = () => {
           <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
-                <li>
+                {/* <li>
                   <a
                     className={pathname === '/about' ? 'text-teal-600 underline' : "text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"}
                     href="/about"
                   >
                     About
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a
