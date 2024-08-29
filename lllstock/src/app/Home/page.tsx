@@ -15,7 +15,11 @@ const Home: React.FC = () => {
     <div>
       {/* Header */}
       <header className="bg-primary text-white p-3 text-center">
-      <img src="../public/LLLMD_Logo.svg" alt="Logo" className="img-fluid" style={{ maxWidth: '200px' }} />
+      <img 
+            src="https://i.im.ge/2024/08/17/fLbaGF.logoLLL.png" 
+            className="mx-auto h-16 w-auto" 
+            alt="Logo" 
+        />
 
         <h1>Live Love LiveStock</h1>
       </header>
@@ -129,11 +133,6 @@ const Home: React.FC = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-dark text-white p-3 text-center mt-4">
-        <p>&copy; 2024 Farm Diagnosis. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

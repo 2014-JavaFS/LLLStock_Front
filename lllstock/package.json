@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^4.0.0",
+    "lllstock": "file:",
     "lucide-react": "^0.427.0",
     "next": "14.2.5",
     "next-themes": "^0.3.0",
