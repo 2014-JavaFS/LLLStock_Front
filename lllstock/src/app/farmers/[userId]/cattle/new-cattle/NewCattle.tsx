@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { lllServer } from '@/utils/lllServer';
+import { CattleRecord } from '@/app/types/cattle';
 
 interface OwnerInfo {
     userId: number;
@@ -18,9 +19,9 @@ interface OwnerInfo {
     owner_info: OwnerInfo;
   }
   
-  interface CattleRecord {
-    patientIdentification: PatientIdentification;
-  }
+//   interface CattleRecord {
+//     patientIdentification: PatientIdentification;
+//   }
   
   interface NewCattleProps {
     farmer: OwnerInfo;
@@ -57,13 +58,19 @@ interface OwnerInfo {
       setError(null);
   
       try {
-        const newCattleRecord: CattleRecord = { patientIdentification };
-        await lllServer.post('/medicalRecord/animal', newCattleRecord, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer your-token-here' // Replace with your actual token
-          }
-        });
+        const newCattleRecord: CattleRecord = {
+            entryId: 0,
+            patientIdentification: patientIdentification,
+            medicalHistory: { previous_illnesses: '', previous_treatments: {
+                medications_prescribed: '', antibiotics: '', treatment_procedures: '', followup_instructions: ''
+            }, vaccination_history: '' },
+            condition: { examination_date: '', diagnosis: '', diagnosis_tests: '', symptoms: ''},
+            plan: { medications_prescribed: '', antibiotics: '', treatment_procedures: '', followup_instructions: '' },
+            health: { monitoring_schedule: '', progress_notes: '' },
+            vetRecord: { vet_details: { userId: 0, firstName: '', lastName: '', email: '' }, record_date: '', signature: '' },
+            notes: { environmental_factors: '', behavioral_observations: '' }
+        };
+        await lllServer.post('/medicalRecord/animal', newCattleRecord);
         router.push(`/farmers/${farmerId}/cattle`);
       } catch (error) {
         console.error("Error inserting new animal: ", error);
