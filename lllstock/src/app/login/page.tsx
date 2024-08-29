@@ -8,6 +8,8 @@ import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
 import { parseJwt } from "@/utils/jwtParser";
 import { useAuth } from "../context/authContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
     // User inputs
@@ -15,8 +17,13 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
     const {isLoggedIn, setIsLoggedIn} = useAuth();
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -66,22 +73,29 @@ export default function Login() {
                     <p className="text-gray-400">Log in to your account</p>                    
                     <label htmlFor="email" className="text-gray-300">Email:</label>
                     <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="example@example.com"
-                    required />
 
-                    <label htmlFor="password" className="text-gray-300">Password:</label>
-                    <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    className="border rounded-md p-2" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required />
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        className="border rounded-md p-2 pr-10" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        placeholder="example@example.com"
+                        required 
+                    />
+
+                    <label htmlFor="password">Password:</label>
+                    <div className="password-input relative">
+                        <input 
+                            type={showPassword ? 'text' : 'password'}
+                            id="password" 
+                            className="border rounded-md p-2 pr-10" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                        />
+                        <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}></FontAwesomeIcon> 
+                        </button>
+                    </div>
 
                     <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
                     <p className="text-gray-400">Forgot your password?</p>
