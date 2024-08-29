@@ -17,13 +17,10 @@ const FarmerCard: React.FC<{farmer: Farmer}> = ({farmer}) => (
         <CardTitle className="text-xl font-semibold mb-2">
             {farmer.firstName} {farmer.lastName}
         </CardTitle>
-        <CardContent className="text-gray-700 mb-4">
+        <CardContent className="text-gray-700 mb-4 w-3/4 h-1/3">
             Email: {farmer.email}
         </CardContent>
-        <div className="flex space-x-4">
-            <Link href={`/farmers/${farmer.userId}`} passHref>
-                <Button className="mr-4">View User Data</Button>
-            </Link>
+        <div className="flex justify-center">
             <Link href={`/farmers/${farmer.userId}/cattle`} passHref>
                 <Button>View Livestock</Button>
             </Link>
