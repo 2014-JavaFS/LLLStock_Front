@@ -107,6 +107,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
   return (
     <div className="p-4">
       {cattleData.map((cattle) => (
+        // eslint-disable-next-line react/jsx-key
         <div>
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
