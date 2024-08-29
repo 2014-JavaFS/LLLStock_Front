@@ -17,7 +17,7 @@ import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import axios from 'axios';
 
-export default function Register() {
+export default function forgotPassword() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -35,11 +35,17 @@ export default function Register() {
             }
 
             console.log(userInfo)
-            const response = await lllServer.post("/users/forgotPassword", userInfo)
-            router.push("/login");
-        }
-        catch(error){
+            const response = await lllServer.patch("/users/forgotPassword", userInfo);
+
+            toast.success("Password reset successfully. You can now log in with your new password.");
+            
+            // Redirect to login page after a short delay
+            setTimeout(() => {
+                router.push("/login");
+            }, 2000); // Adjust the delay as necessary
+        } catch (error) {
             console.error('Error updating password', error);
+            toast.error("Failed to reset password. Please try again.");
         }
     };
 
@@ -62,26 +68,6 @@ export default function Register() {
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="example@example.com"
                     required />
-
-                    <label htmlFor="text" className="text-gray-300">First Name:</label>
-                    <input 
-                    type="text" 
-                    id="firstName" 
-                    name="firstName" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                    placeholder="John"
-                    />
-
-                    <label htmlFor="text" className="text-gray-300">Last Name:</label>
-                    <input 
-                    type="text" 
-                    id="lastName" 
-                    name="lastName" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
-                    onChange={(e) => setLastName(e.target.value)} 
-                    placeholder="Smith"
-                    />
             
                     <label htmlFor="password" className="text-gray-300">Password:</label>
                     <input 
@@ -92,53 +78,7 @@ export default function Register() {
                     onChange={(e) => setPassword(e.target.value)} 
                     required />
 
-                    {/* Dropdown */}
-                    <div className="relative inline-block text-left">
-                        <button
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-solid font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
-                            type="button">
-                            {userType}
-                            <svg
-                                className="w-2.5 h-2.5 ms-3"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 10 6">
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="m1 1 4 4 4-4"/>
-                            </svg>
-                        </button>
-
-                        {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 bg-blue-700 rounded-lg shadow w-44" onMouseLeave={() => setDropdownOpen(false)}>
-                                <ul className="py-2 text-sm text-white">
-                                    <li>
-                                        <a
-                                            href="#"
-                                            onClick={() => setType('OWNER')}
-                                            className="block px-4 py-2 hover:bg-blue-900">
-                                            Owner
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            onClick={() => setType('VET')}
-                                            className="block px-4 py-2 hover:bg-blue-900 border-t border-blue-600">
-                                            Vet
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
-
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">Create an account</Button>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Change Password</Button>
 
                     <p className="text-gray-400">
                         By clicking continue, you agree to our <br />
