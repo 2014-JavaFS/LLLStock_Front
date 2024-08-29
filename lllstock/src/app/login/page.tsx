@@ -1,15 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
-import { lllServer } from "@/utils/lllServer";
-import { toast } from "sonner";
 import { parseJwt } from "@/utils/jwtParser";
-import { useAuth } from "../context/authContext";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { lllServer } from "@/utils/lllServer";
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "../context/authContext";
 
 export default function Login() {
     // User inputs
@@ -44,13 +45,13 @@ export default function Login() {
                 console.log(payload)
                 if(payload != null) {
                     const userId = payload.userId;
-                    localStorage.setItem("userId", userId)
+                    localStorage.setItem("userId", JSON.stringify(userId));
                     router.push("/");
-                    setIsLoggedIn(true)
+                    setIsLoggedIn(true);
+                    console.log(isLoggedIn)
+                    router.push('/profile')
                 }
             })
-
-            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.');
@@ -61,9 +62,6 @@ export default function Login() {
             router.push("/forgotPassword");
         };
 
-    const handleProfile = () => {
-        router.push("/profile");
-    };
 
 
     return (
@@ -102,7 +100,7 @@ export default function Login() {
                         </button>
                     </div>
 
-                    <Button type="submit" className="bg-blue-700 text-lg p-2" onClick={handleProfile}>Log In</Button>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
                     <p className="text-gray-400">Forgot your password?</p>
                     <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
                         Forgot Password
