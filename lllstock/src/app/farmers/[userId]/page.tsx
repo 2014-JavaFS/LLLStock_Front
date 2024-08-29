@@ -1,8 +1,8 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { NextPage } from "next";
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { lllServer } from "@/utils/lllServer";
+import { NextPage } from "next";
+import { useParams, useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import type { Farmer } from "../../types/farmer";
 
 const Farmer: NextPage = () => {
@@ -54,7 +54,7 @@ const Farmer: NextPage = () => {
         if (!farmer || !userId || Array.isArray(userId)) return;
 
         try {
-            await lllServer.put(`/users/${userId}`, farmer, {
+            await lllServer.put(`/users`, farmer, {
                 headers: {
                     'userId': userId.toString()
                 }

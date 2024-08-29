@@ -1,15 +1,11 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import Router, { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useState, useEffect } from "react";
-import axios from 'axios';
 import { lllServer } from "@/utils/lllServer";
-import Error from "../error/page";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function UserProfile({ initialEmail = "", initialPassword = "" }) {
+  const userId = JSON.parse(localStorage.getItem("userId"));
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState(initialEmail);
@@ -43,7 +39,7 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
       const res = await fetch('/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, password })
+        body: JSON.stringify({userId, firstName, lastName, email, password })
       });
 
       const response = await lllServer.post("/users/info", res);
