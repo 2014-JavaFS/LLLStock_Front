@@ -63,7 +63,7 @@ export interface Health {
   progress_notes: string;
 }
 
-export interface CattleRecord {
+export interface Cattle {
   entryId: number;
   patientIdentification: PatientIdentification;
   medicalHistory: MedicalHistory;
