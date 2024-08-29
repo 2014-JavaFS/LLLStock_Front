@@ -15,7 +15,7 @@ export default function Login() {
     // User inputs
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [userType, setType] = useState('OWNER'); // FIXME hardcoded
+    const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
@@ -50,26 +50,30 @@ export default function Login() {
                 }
             })
 
-            // Assuming successful login redirects to another page
-            // router.push("/dashboard"); // Adjust the route as necessary
-
+            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
-            toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
+            toast.error('Login failed. Please check your credentials and try again.');
         }
     };
+
+        const handleForgotPassword = () => {
+            router.push("/forgotPassword");
+        };
 
     return (
         <div className="login-container min-h-screen relative flex">
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <div className="flex min-h-[calc(100vh-4em)] flex-col items-center justify-center p-24">
-            <Card>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
-                    <CardTitle>Login</CardTitle>
-                    <label htmlFor="email">Email:</label>
+            <div className="min-h-screen w-1/2 flex items-center justify-center p-2 bg-black">
+                <Card className="border border-black ">
+                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
+                    <CardTitle className="text-white">Log In</CardTitle>
+                    <p className="text-gray-400">Log in to your account</p>                    
+                    <label htmlFor="email" className="text-gray-300">Email:</label>
                     <input 
+
                         type="text" 
                         id="email" 
                         name="email" 
@@ -93,15 +97,11 @@ export default function Login() {
                         </button>
                     </div>
 
-
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">
-                        Login
-                    </Button>
-
-                    <div className="register-container text-center">
-                        <p>Need to sign up?</p>
-                        <ButtonWithMail></ButtonWithMail>
-                    </div>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
+                    <p className="text-gray-400">Forgot your password?</p>
+                    <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
+                        Forgot Password
+                    </Button> 
                 </form>
             </Card>
         </div>
@@ -120,5 +120,6 @@ export default function Login() {
             style={{ width: '12vw', maxWidth: '150px', minWidth: '80px', height: 'auto' }} 
         />
     </div>
-    );
+    )
+
 }
