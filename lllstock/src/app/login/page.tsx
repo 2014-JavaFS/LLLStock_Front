@@ -13,7 +13,7 @@ export default function Login() {
     // User inputs
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [userType, setType] = useState('OWNER'); // FIXME hardcoded
+    const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useRouter();
     const {isLoggedIn, setIsLoggedIn} = useAuth();
@@ -43,16 +43,15 @@ export default function Login() {
                 }
             })
 
-            // Assuming successful login redirects to another page
-            router.push("/dashboard"); // Adjust the route as necessary
+            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
-            toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
+            toast.error('Login failed. Please check your credentials and try again.');
         }
     };
 
         const handleForgotPassword = () => {
-            router.push("/forgotPassword"); // Adjust the route as necessary
+            router.push("/forgotPassword");
         };
 
     return (
