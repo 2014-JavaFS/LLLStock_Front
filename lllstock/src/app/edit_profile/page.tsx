@@ -47,7 +47,7 @@ export default function UserProfile({ initialEmail = "", initialPassword = "" })
       });
 
       const response = await lllServer.post("/users/info", res);
-      router.push("/dashboard");
+      router.push("/");
 
     } catch (e) {
       console.error('Error:', e);

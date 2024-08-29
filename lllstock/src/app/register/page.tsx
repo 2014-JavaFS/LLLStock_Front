@@ -16,6 +16,8 @@ import {
 import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
 
@@ -25,7 +27,12 @@ export default function Register() {
     const [lastName, setLastName] = useState('');
     const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
 
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -64,7 +71,7 @@ export default function Register() {
                     type="email" 
                     id="email" 
                     name="email" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
+                    className="border rounded-md p-2 placeholder-gray-500 pr-10" 
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="example@example.com"
                     required />
@@ -74,7 +81,7 @@ export default function Register() {
                     type="text" 
                     id="firstName" 
                     name="firstName" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
+                    className="border rounded-md p-2 placeholder-gray-500 pr-10" 
                     onChange={(e) => setFirstName(e.target.value)} 
                     placeholder="John"
                     />
@@ -84,19 +91,25 @@ export default function Register() {
                     type="text" 
                     id="lastName" 
                     name="lastName" 
-                    className="border rounded-md p-2 placeholder-gray-500" 
+                    className="border rounded-md p-2 placeholder-gray-500 pr-10" 
                     onChange={(e) => setLastName(e.target.value)} 
                     placeholder="Smith"
                     />
             
                     <label htmlFor="password" className="text-gray-300">Password:</label>
-                    <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    className="border rounded-md p-2" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required />
+                    <div className="password-input relative">
+                        <input 
+                            type={showPassword ? 'text' : 'password'}
+                            id="password" 
+                            name="password"
+                            className="border rounded-md p-2 pr-10" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                        />
+                        <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}></FontAwesomeIcon> 
+                        </button>
+                    </div>
 
                     {/* Dropdown */}
                     <div className="relative inline-block text-left">
