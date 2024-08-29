@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
@@ -45,12 +45,11 @@ export default function Login() {
                 if(payload != null) {
                     const userId = payload.userId;
                     localStorage.setItem("userId", userId)
-                    router.push("/");
                     setIsLoggedIn(true)
+                    console.log(isLoggedIn)
+                    router.push('/profile')
                 }
             })
-
-            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
             toast.error('Login failed. Please check your credentials and try again.');
@@ -61,9 +60,6 @@ export default function Login() {
             router.push("/forgotPassword");
         };
 
-    const handleProfile = () => {
-        router.push("/profile");
-    };
 
 
     return (
@@ -102,7 +98,7 @@ export default function Login() {
                         </button>
                     </div>
 
-                    <Button type="submit" className="bg-blue-700 text-lg p-2" onClick={handleProfile}>Log In</Button>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
                     <p className="text-gray-400">Forgot your password?</p>
                     <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
                         Forgot Password

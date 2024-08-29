@@ -9,6 +9,7 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('jwt')
     localStorage.removeItem('userId')
+    localStorage.removeItem('isLoggedIn')
     setIsLoggedIn(false);
   }
   return (
@@ -66,6 +67,7 @@ const Header: React.FC = () => {
                 <a
                     className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
                     href="/login"
+                    onClick={handleLogout}
                   >
                     Logout
                   </a>
