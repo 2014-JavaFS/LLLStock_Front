@@ -84,7 +84,9 @@ interface OwnerInfo {
             }, record_date: '', signature: '' },
             notes: { environmental_factors: '', behavioral_observations: '' }
         };
-        await lllServer.post('/medicalRecord/animal', newCattleRecord);
+        await lllServer.post('/medicalRecord/animal', newCattleRecord, {headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }});
         router.push(`/farmers/${farmerId}/cattle`);
       } catch (error) {
         console.error("Error inserting new animal: ", error);
