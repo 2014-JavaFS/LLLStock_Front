@@ -30,6 +30,7 @@ export default function Login() {
             await lllServer.post(`/auth/users/login?email=${email}&password=${password}`)
             .then((response: {data:{accessToken: string}}) => {
                 console.log(response.data.accessToken)
+                localStorage.setItem("jwt", response.data.accessToken)
                 const payload = parseJwt(response.data.accessToken)
                 console.log(payload)
                 if(payload != null) {
