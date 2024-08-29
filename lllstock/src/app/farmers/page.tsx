@@ -16,7 +16,8 @@ const Farmers: React.FC = () => {
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await lllServer.get<Farmer[]>('/users/farmers');
+        const response = await lllServer.get<Farmer[]>('/users/all');
+
         setFarmers(response.data);
       } catch (error) {
         console.error("Error fetching farmers date: ", error);

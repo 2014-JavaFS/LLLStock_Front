@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import Selection_Card from "../../components/ui/selection_card";
-import { Cattle } from "../types/cattle";
-import type { Farmer } from "../types/farmer";
+import { Cattle } from "../../../../types/cattle";
 import { useParams, useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { lllServer } from "@/utils/lllServer";
@@ -13,7 +11,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 }) => {
   const params = useParams();
   const userId = params.userId;
-  const animalId = 31;
+  const entryId = 40;
   const [cattleData, setCattleData] = useState<Cattle[]>([cattle]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,14 +19,14 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
 
   useEffect(() => {
     const fetchCattleData = async () => {
-      if (!animalId || Array.isArray(animalId)) {
-        setError("Invalid animal id");
+      if (!entryId || Array.isArray(entryId)) {
+        setError("Invalid entry id");
         setLoading(false);
         return;
       }
       try {
-        const response = await lllServer.get(`/medicalRecord/animal`, {
-          params: { animalId: animalId },
+        const response = await lllServer.get(`/medicalRecord/entry`, {
+          params: { entryId: entryId },
         });
         console.log("response: ", response.data);
         setCattleData([response.data]);
@@ -41,7 +39,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
       }
     };
     fetchCattleData();
-  }, [router, animalId]);
+  }, [router, entryId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("name: ", e.target.name);
@@ -107,7 +105,6 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({
   return (
     <div className="p-4">
       {cattleData.map((cattle) => (
-        // eslint-disable-next-line react/jsx-key
         <div>
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
