@@ -61,6 +61,11 @@ export default function Login() {
             router.push("/forgotPassword");
         };
 
+    const handleProfile = () => {
+        router.push("/profile");
+    };
+
+
     return (
         <div className="login-container min-h-screen relative flex">
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
@@ -97,7 +102,7 @@ export default function Login() {
                         </button>
                     </div>
 
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">Log In</Button>
+                    <Button type="submit" className="bg-blue-700 text-lg p-2" onClick={handleProfile}>Log In</Button>
                     <p className="text-gray-400">Forgot your password?</p>
                     <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
                         Forgot Password
