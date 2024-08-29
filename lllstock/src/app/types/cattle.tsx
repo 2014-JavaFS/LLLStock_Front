@@ -19,12 +19,6 @@ export interface PreviousTreatment {
     treatment_procedures: string;
     followup_instructions: string;
 }
-  
-  export interface MedicalHistory {
-    previous_illnesses: string[];
-    previous_treatments: PreviousTreatment[];
-    vaccination_history: string[];
-  }
 
 export interface MedicalHistory {
     previous_illnesses: string;
@@ -69,9 +63,6 @@ export interface Plan {
     monitoring_schedule: string;
     progress_notes: string;
   }
-  
-  export interface CattleRecord {
-}
 
 export interface Health {
     monitoring_schedule: string;
