@@ -14,8 +14,8 @@ export interface PatientIdentification {
 }
 
 export interface PreviousTreatment {
-    medications_prescribed: string[];
-    antibiotics: string[];
+    medications_prescribed: string;
+    antibiotics: string;
     treatment_procedures: string;
     followup_instructions: string;
 }
@@ -27,21 +27,21 @@ export interface PreviousTreatment {
   }
 
 export interface MedicalHistory {
-    previous_illnesses: string[];
-    previous_treatments: PreviousTreatment[];
-    vaccination_history: string[];
+    previous_illnesses: string;
+    previous_treatments: PreviousTreatment;
+    vaccination_history: string;
 }
 
 export interface Condition {
     examination_date: string;
     diagnosis: string;
-    diagnosis_tests: string[];
-    symptoms: string[];
-  }
+    diagnosis_tests: string;
+    symptoms: string;
+}
 
 export interface Plan {
-    medications_prescribed: string[];
-    antibiotics: string[];
+    medications_prescribed: string;
+    antibiotics: string;
     treatment_procedures: string;
     followup_instructions: string;
   }
