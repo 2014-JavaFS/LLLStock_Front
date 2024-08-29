@@ -7,14 +7,23 @@ import { ButtonWithMail } from "@/components/ui/buttonWIthMail";
 import { lllServer } from "@/utils/lllServer";
 import { toast } from "sonner";
 import { parseJwt } from "@/utils/jwtParser";
+import { useAuth } from "../context/authContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
     // User inputs
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [userType, setType] = useState('OWNER'); // FIXME hardcoded
+    const [userType, setType] = useState('OWNER');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
+    const {isLoggedIn, setIsLoggedIn} = useAuth();
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -36,21 +45,20 @@ export default function Login() {
                 if(payload != null) {
                     const userId = payload.userId;
                     localStorage.setItem("userId", userId)
-                    localStorage.setItem("userType", userType)
                     router.push("/");
+                    setIsLoggedIn(true)
                 }
             })
 
-            // Assuming successful login redirects to another page
-            router.push("/dashboard"); // Adjust the route as necessary
+            router.push("/");
         } catch (error) {
             console.error('Error in login', error);
-            toast.error('Login failed. Please check your credentials and try again.'); // Ensure you have a toast configuration set up
+            toast.error('Login failed. Please check your credentials and try again.');
         }
     };
 
         const handleForgotPassword = () => {
-            router.push("/forgotPassword"); // Adjust the route as necessary
+            router.push("/forgotPassword");
         };
 
     const handleProfile = () => {
@@ -63,40 +71,39 @@ export default function Login() {
             <div className="w-1/2 bg-[url('https://drinkmilkinglassbottles.com/wp-content/uploads/2017/01/5-Fun-Facts-About-Cows-Debunking-Common-Myths-768x583.jpg')] bg-cover bg-center"></div>
             
             {/* Right side, the registration form */}
-            <div className="flex min-h-[calc(100vh-4em)] flex-col items-center justify-center p-24">
-            <Card>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
-                    <CardTitle>Login</CardTitle>
-                    <label htmlFor="email">Email:</label>
+            <div className="min-h-screen w-1/2 flex items-center justify-center p-2 bg-black">
+                <Card className="border border-black ">
+                <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4 bg-black">
+                    <CardTitle className="text-white">Log In</CardTitle>
+                    <p className="text-gray-400">Log in to your account</p>                    
+                    <label htmlFor="email" className="text-gray-300">Email:</label>
                     <input 
+
                         type="text" 
                         id="email" 
                         name="email" 
-                        className="border rounded-md p-2" 
+                        className="border rounded-md p-2 pr-10" 
                         onChange={(e) => setEmail(e.target.value)} 
                         placeholder="example@example.com"
                         required 
                     />
 
                     <label htmlFor="password">Password:</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        className="border rounded-md p-2" 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
-                    />
-
-                    <Button type="submit" className="bg-blue-700 text-lg p-2">
-                        Login
-                    </Button>
-
-                    <div className="register-container text-center">
-                        <p>Need to sign up?</p>
-                        <ButtonWithMail></ButtonWithMail>
+                    <div className="password-input relative">
+                        <input 
+                            type={showPassword ? 'text' : 'password'}
+                            id="password" 
+                            className="border rounded-md p-2 pr-10" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                        />
+                        <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}></FontAwesomeIcon> 
+                        </button>
                     </div>
 
                     <Button type="submit" className="bg-blue-700 text-lg p-2" onClick={handleProfile}>Log In</Button>
+                    <p className="text-gray-400">Forgot your password?</p>
                     <Button type="button" className="bg-blue-700 text-lg p-2" onClick={handleForgotPassword}>
                         Forgot Password
                     </Button> 
