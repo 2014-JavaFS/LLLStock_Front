@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Toaster } from "sonner";
 import { usePathname } from 'next/navigation';
 import { AuthProvider } from "./context/authContext";
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 
 const inter = Inter({ subsets: ["latin"] });
