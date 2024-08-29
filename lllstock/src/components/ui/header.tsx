@@ -30,14 +30,14 @@ const Header: React.FC = () => {
                   </a>
                 </li>
 
-                {/* <li>
+                <li>
                   <a
                     className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                    href="/farmers"
+                    href="/profile"
                   >
-                    Farmers
+                    Profile
                   </a>
-                </li> */}
+                </li>
 
                 <li>
                   <a
@@ -69,6 +69,8 @@ const Header: React.FC = () => {
                   </a>
                 </div>
               </div>
+          
+              
 
               <div className="block md:hidden">
                 <button
