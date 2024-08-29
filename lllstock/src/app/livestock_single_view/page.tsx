@@ -11,8 +11,8 @@ import { lllServer } from "@/utils/lllServer";
 const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) => {
     const params = useParams();
     const userId = params.userId;
-    const animalId = params.animalId;
-    const [cattleData, setCattleData] = useState<Cattle[]>([]);
+    const animalId = 28;
+    const [cattleData, setCattleData] = useState<Cattle[]>([cattle]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
@@ -28,6 +28,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                 const response = await lllServer.get(`/medicalRecord/animal`, {
                     params: { animalId: animalId }
                 });
+                console.log('response: ', response.data);
                 setCattleData([response.data]);
             } catch (error) {
                 console.error("Error fetching cattle data: ", error);
@@ -41,24 +42,47 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
     }, [router, animalId]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (cattle) {
-            setCattleData((prevState: Cattle[]) => [
-                ...prevState,
-                {
-                    ...cattle,
-                    [e.target.name]: e.target.value,
-                    length: 0
-                }
-            ]);
-        }
+        console.log("name: ", e.target.name);
+        console.log("value: ", e.target.value);
+        console.log(cattleData)
+        e.preventDefault();
+        // Destructure the input name and value
+        const { name, value } = e.target;
+
+        // Create a new state object by updating the relevant field
+        setCattleData((prevData) => {
+            const updatedData = [...prevData];
+        
+            // Split the name to handle nested properties
+            const nameParts = name.split('.'); 
+            console.log("nameParts: ", nameParts);
+            const updatedCattle = { ...updatedData[0] };
+
+            let currentObject:any = updatedData[0];
+            for(let i=0;i<nameParts.length-1;i++){
+                const part = nameParts[i];
+
+                currentObject = currentObject[part];
+            }
+
+            currentObject[nameParts[nameParts.length-1]] = value;
+            console.log(currentObject);
+
+            updatedData[0] = updatedCattle;
+
+            return updatedData;
+          });
     };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!cattle || !userId || Array.isArray(userId)) return;
+        if (!cattleData|| Array.isArray(userId)){
+            console.log(cattle, userId, Array.isArray(userId));
+            return;
+        }
 
         try {
-            await lllServer.patch(`/medicalRecord/animal`, cattle);
+            await lllServer.patch(`/medicalRecord/animal`, cattleData[0]);
             alert("Livestock information updated successfully!");
         } catch (error) {
             console.error("Error updating livestock data: ", error);
@@ -83,7 +107,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
             {cattleData.map(cattle => (
                 <div>
                     <div className="px-4 sm:px-0">
-                    <h3 className="text-base font-semibold leading-7 text-gray-900">Livestock Information {cattle.entryId}</h3>
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">Livestock Information {cattleData[0].entryId}</h3>
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Livestock details</p>
                     </div>
                     <div className="mt-6 border-t border-gray-100">
@@ -91,38 +115,40 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">Owner Name</dt>
                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                <div><strong>First Name:</strong> {cattle.patientIdentification.owner_info.firstName}</div>
-                                <div><strong>Last Name:</strong> {cattle.patientIdentification.owner_info.lastName}</div>
+                                <div><strong>First Name:</strong> {cattleData[0].patientIdentification.owner_info.firstName}</div>
+                                <div><strong>Last Name:</strong> {cattleData[0].patientIdentification.owner_info.lastName}</div>
                             </dd>
                             <dt className="text-sm font-medium leading-6 text-gray-900">Owner Email</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.patientIdentification.owner_info.email} 
+                                value={cattleData[0].patientIdentification.owner_info.email} 
                             />
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">Patient ID</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.patientIdentification.animal_id}
+                                value={cattleData[0].patientIdentification.animal_id}
                                 readOnly
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Patient Breed</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.patientIdentification.breed}
+                                value={cattleData[0].patientIdentification.breed}
                                 onChange={handleInputChange}
+                                name="patientIdentification.breed"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Patient Age</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.patientIdentification.age}
+                                value={cattleData[0].patientIdentification.age}
                                 onChange={handleInputChange}
+                                name="patientIdentification.age"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Patient Sex</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.patientIdentification.sex}
+                                value={cattleData[0].patientIdentification.sex}
                                 readOnly
                             />
                         </div>
@@ -130,18 +156,22 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                             <dt className="text-sm font-medium leading-6 text-gray-900">Previous Illnesses</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.medicalHistory.previous_illnesses.length > 0 ? cattle.medicalHistory.previous_illnesses.join(', ') : ''} 
+                                value={cattleData[0].medicalHistory.previous_illnesses.length > 0 ? cattleData[0].medicalHistory.previous_illnesses.join(', ') : ''} 
+                                name="medicalHistory.previous_illnesses"
+                                onChange={handleInputChange}
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Previous Treatment</dt>
                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {cattle.medicalHistory.previous_treatments.length > 0 ? (
-                                    cattle.medicalHistory.previous_treatments.map((treatment, index) => (
+                                {cattleData[0].medicalHistory.previous_treatments.length > 0 ? (
+                                    cattleData[0].medicalHistory.previous_treatments.map((treatment, index) => (
                                         <div key={index} className="mb-4">
                                             <div><strong>Medications Prescribed: </strong>
+                                            {/* TODO: change to handle a string instead of array of strings after changing property in backend */}
                                                 <input 
                                                     className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 w-full" 
                                                     value={treatment.medications_prescribed.length > 0 ? treatment.medications_prescribed.join(', ') : ''} 
                                                     onChange={handleInputChange}
+                                                    name="medicalHistory.previous_treatments.medications_prescribed"
                                                 />
                                             </div>
                                             <div><strong>Antibiotics: </strong>
@@ -149,6 +179,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                                                     className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 w-full" 
                                                     value={treatment.antibiotics.length > 0 ? treatment.antibiotics.join(', ') : ''} 
                                                     onChange={handleInputChange}
+                                                    name="medicalHistory.treatment.antibiotics"
                                                 />
                                             </div>
                                             <div><strong>Treatment Procedures: </strong>
@@ -156,6 +187,8 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                                                     className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 w-full" 
                                                     value={treatment.treatment_procedures} 
                                                     onChange={handleInputChange}
+                                                    name="medicalHistory.previous_treatments.treatment_procedures"
+
                                                 />
                                             </div>
                                             <div><strong>Follow-up Instructions: </strong>
@@ -163,6 +196,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                                                     className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 w-full" 
                                                     value={treatment.followup_instructions} 
                                                     onChange={handleInputChange}
+                                                    name="medicalHistory.treatment.followup_instructions"
                                                 />
                                             </div>
                                         </div>
@@ -174,7 +208,7 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                             <dt className="text-sm font-medium leading-6 text-gray-900">Vaccination History</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.medicalHistory.vaccination_history.length > 0 ? cattle.medicalHistory.vaccination_history.join(', ') : ''} 
+                                value={cattleData[0].medicalHistory.vaccination_history.length > 0 ? cattleData[0].medicalHistory.vaccination_history.join(', ') : ''} 
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -182,25 +216,26 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                             <dt className="text-sm font-medium leading-6 text-gray-900">Examination Date</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.condition.examination_date}
+                                value={cattleData[0].condition.examination_date}
                                 onChange={handleInputChange}
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Diagnosis</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.condition.diagnosis} 
+                                value={cattleData[0].condition.diagnosis} 
                                 onChange={handleInputChange}
+                                name="condition.diagnosis"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Diagnosis Tests</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.condition.diagnosis_tests.length > 0 ? cattle.condition.diagnosis_tests.join(', ') : ''} 
+                                value={cattleData[0].condition.diagnosis_tests.length > 0 ? cattleData[0].condition.diagnosis_tests.join(', ') : ''} 
                                 onChange={handleInputChange}
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Symptoms</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.condition.symptoms.length > 0 ? cattle.condition.symptoms.join(', ') : ''} 
+                                value={cattleData[0].condition.symptoms.length > 0 ? cattleData[0].condition.symptoms.join(', ') : ''} 
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -208,67 +243,61 @@ const Livestock_Single_View_Page: React.FC<{ cattle: Cattle }> = ({ cattle }) =>
                             <dt className="text-sm font-medium leading-6 text-gray-900">Medications Prescribed</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.plan.medications_prescribed.length > 0 ? cattle.plan.medications_prescribed.join(', ') : ''} 
+                                value={cattleData[0].plan.medications_prescribed.length > 0 ? cattleData[0].plan.medications_prescribed.join(', ') : ''} 
                                 onChange={handleInputChange}
+                                name="medications_prescribed"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Antibiotics</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.plan.antibiotics.length > 0 ? cattle.plan.antibiotics.join(', ') : ''} 
+                                value={cattleData[0].plan.antibiotics.length > 0 ? cattleData[0].plan.antibiotics.join(', ') : ''} 
                                 onChange={handleInputChange}
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Treatment Procedures</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.plan.treatment_procedures} 
+                                value={cattleData[0].plan.treatment_procedures} 
                                 onChange={handleInputChange}
+                                name="plan.treatment_procedures"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Follow-up Instructions</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.plan.followup_instructions} 
+                                value={cattleData[0].plan.followup_instructions} 
                                 onChange={handleInputChange}
+                                name="plan.followup_instructions"
                             />
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">Monitoring Schedule</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.health.monitoring_schedule} 
+                                value={cattleData[0].health.monitoring_schedule} 
                                 onChange={handleInputChange}
+                                name="health.monitoring_schedule"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Progress Notes</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.health.progress_notes} 
+                                value={cattleData[0].health.progress_notes} 
                                 onChange={handleInputChange}
+                                name="health.progress_notes"
                             />
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Vet Name</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                <div><strong>First Name:</strong> {cattle.vetRecord.vet_details.firstName}</div>
-                                <div><strong>Last Name:</strong> {cattle.vetRecord.vet_details.lastName}</div>
-                            </dd>
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Vet Email</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{cattle.vetRecord.vet_details.email}</dd>
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Record Date</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{cattle.vetRecord.record_date}</dd>
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Signature</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{cattle.vetRecord.signature}</dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">Environmental Factors</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.notes.environmental_factors}
+                                value={cattleData[0].notes.environmental_factors}
                                 onChange={handleInputChange}
+                                name="notes.environmental_factors"
                             />
                             <dt className="text-sm font-medium leading-6 text-gray-900">Behavioral Observations</dt>
                             <input 
                                 className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" 
-                                value={cattle.notes.behavioral_observations}
+                                value={cattleData[0].notes.behavioral_observations}
                                 onChange={handleInputChange}
+                                name="notes.behavioral_observations"
                             />
                         </div>
                     </dl>
