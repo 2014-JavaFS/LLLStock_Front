@@ -1,8 +1,11 @@
 import React from 'react';
 import link from 'next/link';
 import { useAuth } from '@/app/context/authContext';
+import { usePathname } from 'next/navigation';
 
 const Header: React.FC = () => {
+
+  const pathname = usePathname();
 
   const {isLoggedIn, setIsLoggedIn} = useAuth();
 
@@ -33,7 +36,7 @@ const Header: React.FC = () => {
               <ul className="flex items-center gap-6 text-sm">
                 <li>
                   <a
-                    className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className={pathname === '/about' ? 'text-teal-600 underline' : "text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"}
                     href="/about"
                   >
                     About
@@ -42,7 +45,7 @@ const Header: React.FC = () => {
 
                 <li>
                   <a
-                    className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className={pathname === '/profile' ? 'text-teal-600 underline' : "text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"}
                     href="/profile"
                   >
                     Profile
@@ -51,7 +54,7 @@ const Header: React.FC = () => {
 
                 <li>
                   <a
-                    className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className={pathname === '/contact' ? 'text-teal-600 underline' : "text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"}
                     href="/contact"
                   >
                     Contact
@@ -65,7 +68,7 @@ const Header: React.FC = () => {
               <div className="sm:flex sm:gap-4">
                 {isLoggedIn ? (
                 <a
-                    className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
+                    className={pathname !== '/register' ? "rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500" : "rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"}
                     href="/login"
                     onClick={handleLogout}
                   >
@@ -73,7 +76,7 @@ const Header: React.FC = () => {
                   </a>
                 ) : (
                   <a
-                  className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
+                  className={pathname !== '/register' ? "rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500" : "rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"}
                   href="/login"
                 >
                   Login
@@ -81,7 +84,7 @@ const Header: React.FC = () => {
                 )}
                 <div className="hidden sm:flex">
                   <a
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
+                    className={pathname === '/register' ? "rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500" : "rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"}
                     href="/register"
                   >
                     Register
